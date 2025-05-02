@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pulgas.models;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
 
 /**
  *
@@ -10,7 +13,8 @@ package pulgas.models;
  *
  * Clase abstracta que define el comportamiento base de las pulgas
  */
-abstract class Pulga {
+
+public abstract class Pulga {
     protected int x, y;
     protected int ancho, alto;
     protected Image imagen;
