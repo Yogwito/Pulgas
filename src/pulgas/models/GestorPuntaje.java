@@ -8,6 +8,60 @@ package pulgas.models;
  *
  * @author juans
  */
-public class GestorPuntaje {
+/**
+ * Gestor de puntaje del juego
+ */
+class GestorPuntaje {
+    private int puntajeActual;
+    private int puntajeMaximo;
+    private final String ARCHIVO_PUNTAJE = "puntaje_maximo.txt";
     
+    public GestorPuntaje() {
+        puntajeActual = 0;
+        puntajeMaximo = 0;
+    }
+    
+    public void cargarPuntajeMaximo() {
+        try (BufferedReader br = new BufferedReader(new FileReader(ARCHIVO_PUNTAJE))) {
+            String linea = br.readLine();
+            if (linea != null) {
+                puntajeMaximo = Integer.parseInt(linea);
+            }
+        } catch (IOException | NumberFormatException e) {
+            // Si hay error al leer, se mantiene el puntaje en 0
+            puntajeMaximo = 0;
+        }
+    }
+    
+    public void guardarPuntajeMaximo() {
+        if (puntajeActual > puntajeMaximo) {
+            puntajeMaximo = puntajeActual;
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_PUNTAJE))) {
+                bw.write(String.valueOf(puntajeMaximo));
+            } catch (IOException e) {
+                System.err.println("Error al guardar puntaje: " + e.getMessage());
+            }
+        }
+    }
+    
+    public void aumentarPuntaje(int puntos) {
+        puntajeActual += puntos;
+        if (puntajeActual > puntajeMaximo) {
+            puntajeMaximo = puntajeActual;
+        }
+    }
+    
+    public int getPuntajeActual() {
+        return puntajeActual;
+    }
+    
+    public int getPuntajeMaximo() {
+        return puntajeMaximo;
+    }
+    
+    public void reiniciarPuntaje() {
+        guardarPuntajeMaximo();
+        puntajeActual = 0;
+    }
 }
+
