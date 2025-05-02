@@ -7,7 +7,21 @@ package pulgas.models;
 /**
  *
  * @author juans
+ *
  */
-public class PulgaNormal {
+class PulgaNormal extends Pulga {
+    public PulgaNormal(int x, int y, Image imagen) {
+        this.x = x;
+        this.y = y;
+        this.imagen = imagen;
+        this.ancho = imagen.getWidth(null);
+        this.alto = imagen.getHeight(null);
+    }
     
+    @Override
+    public boolean recibirImpacto() {
+        // Pulga normal muere con un solo impacto
+        return true; // Indica que la pulga debe eliminarse
+    }
 }
+

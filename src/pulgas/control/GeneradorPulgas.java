@@ -7,7 +7,49 @@ package pulgas.control;
 /**
  *
  * @author juans
+ *
+ *
+ * Hilo para generación automática de pulgas
  */
-public class GeneradorPulgas {
+
+class GeneradorPulgas extends Thread {
+    private CampoBatalla campoBatalla;
+    private boolean ejecutando;
     
+    public GeneradorPulgas(CampoBatalla campoBatalla) {
+        this.campoBatalla = campoBatalla;
+        this.ejecutando = true;
+    }
+    
+    @Override
+    public void run() {
+        try {
+            int contadorNormal = 0;
+            int contadorMutante = 0;
+            
+            while (ejecutando) {
+                Thread.sleep(1000); 
+                
+                contadorNormal++;
+                contadorMutante++;
+                
+                if (contadorNormal >= 5) { 
+                    campoBatalla.agregarPulgaNormal();
+                    contadorNormal = 0;
+                }
+                
+                if (contadorMutante >= 10) { 
+                    campoBatalla.agregarPulgaMutante();
+                    contadorMutante = 0;
+                }
+            }
+        } catch (InterruptedException e) {
+            ejecutando = false;
+        }
+    }
+    
+    public void detener() {
+        ejecutando = false;
+        interrupt();
+    }
 }

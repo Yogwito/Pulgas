@@ -7,7 +7,10 @@ package pulgas.armas;
 /**
  *
  * @author juans
+ *
+ *
+ * Interfaz para las armas del juego
  */
-public class Arma {
-    
+interface Arma {
+    int atacar(List<Pulga> pulgas, int x, int y, GestorPuntaje gestorPuntaje, Image imgPulgaNormal);
 }
