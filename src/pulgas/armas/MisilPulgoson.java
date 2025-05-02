@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pulgas.armas;
+
 import java.awt.Image;
 import java.util.Collections;
 import java.util.List;
@@ -12,11 +13,17 @@ import pulgas.models.PulgaMutante;
 import pulgas.models.PulgaNormal;
 
 /**
- *
- * @author juans
- *
+ * Implementación del arma "Misil Pulgoson", que ataca eliminando al azar
+ * el 50% de las pulgas presentes. Las pulgas mutantes impactadas que no
+ * son eliminadas se transforman en pulgas normales.
  */
 public class MisilPulgoson implements Arma {
+
+    /**
+     * Ejecuta el ataque del Misil Pulgoson.
+     * Elimina al azar la mitad de las pulgas. Si una pulga mutante sobrevive,
+     * se convierte en una pulga normal. Se actualiza el puntaje según las pulgas eliminadas.
+     */
     @Override
     public int atacar(List<Pulga> pulgas, int x, int y, GestorPuntaje gestorPuntaje, Image imgPulgaNormal) {
         if (pulgas.isEmpty()) {
