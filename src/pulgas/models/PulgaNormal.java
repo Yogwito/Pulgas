@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pulgas.models;
-
+import java.awt.Image;
 /**
  *
  * @author juans
