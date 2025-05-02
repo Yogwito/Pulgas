@@ -20,8 +20,9 @@ import pulgas.armas.*;
 import pulgas.models.*;
 
 /**
- * 
- * @author juans
+ *
+ * @author juans & Trujirend & JJDaza
+ *
  */
 /**
  * Clase que representa el campo de batalla donde interactúan las pulgas y las armas.

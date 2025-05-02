@@ -6,7 +6,7 @@ package pulgas.control;
 
 /**
  *
- * @author juans
+ * @author juans & Trujirend & JJDaza
  *
  */
 

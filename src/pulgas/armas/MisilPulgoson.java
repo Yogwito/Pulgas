@@ -11,7 +11,11 @@ import pulgas.models.GestorPuntaje;
 import pulgas.models.Pulga;
 import pulgas.models.PulgaMutante;
 import pulgas.models.PulgaNormal;
-
+/**
+ *
+ * @author juans & Trujirend & JJDaza
+ *
+ */
 /**
  * Implementación del arma "Misil Pulgoson", que ataca eliminando al azar
  * el 50% de las pulgas presentes. Las pulgas mutantes impactadas que no

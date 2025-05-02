@@ -8,7 +8,11 @@ import java.awt.Image;
 import java.util.List;
 import pulgas.models.GestorPuntaje;
 import pulgas.models.Pulga;
-
+/**
+ *
+ * @author juans & Trujirend & JJDaza
+ *
+ */
 /**
  * Interfaz que representa un arma capaz de atacar pulgas en el juego.
  */

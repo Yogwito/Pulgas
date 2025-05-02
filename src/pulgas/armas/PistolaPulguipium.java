@@ -11,7 +11,11 @@ import pulgas.models.GestorPuntaje;
 import pulgas.models.Pulga;
 import pulgas.models.PulgaMutante;
 import pulgas.models.PulgaNormal;
-
+/**
+ *
+ * @author juans & Trujirend & JJDaza
+ *
+ */
 /**
  * Implementación del arma "Pistola Pulguipium", que dispara en una pequeña
  * área y afecta a una sola pulga que esté en el punto de impacto.
