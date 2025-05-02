@@ -8,6 +8,29 @@ package pulgas.armas;
  *
  * @author juans
  */
-public class PistolaPulguipium {
-    
+class PistolaPulguipium implements Arma {
+    @Override
+    public int atacar(List<Pulga> pulgas, int x, int y, GestorPuntaje gestorPuntaje, Image imgPulgaNormal) {
+        Rectangle puntoDisparo = new Rectangle(x-5, y-5, 10, 10);
+        int pulgasEliminadas = 0;
+        
+        for (int i = 0; i < pulgas.size(); i++) {
+            Pulga pulga = pulgas.get(i);
+            if (pulga.obtenerRectangulo().intersects(puntoDisparo)) {
+                if (pulga.recibirImpacto()) {
+                    pulgas.remove(i);
+                    pulgasEliminadas++;
+                    gestorPuntaje.aumentarPuntaje(1);
+                } else if (pulga instanceof PulgaMutante) {
+                    // Convertir pulga mutante en normal
+                    PulgaNormal pulgaNormal = new PulgaNormal(pulga.x, pulga.y, imgPulgaNormal);
+                    pulgas.set(i, pulgaNormal);
+                }
+                break; // Solo afecta a una pulga
+            }
+        }
+        
+        return pulgasEliminadas;
+    }
 }
+
