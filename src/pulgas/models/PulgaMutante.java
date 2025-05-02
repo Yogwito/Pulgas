@@ -8,6 +8,20 @@ package pulgas.models;
  *
  * @author juans
  */
-public class PulgaMutante {
+
+class PulgaMutante extends Pulga {
+    public PulgaMutante(int x, int y, Image imagen) {
+        this.x = x;
+        this.y = y;
+        this.imagen = imagen;
+        this.ancho = imagen.getWidth(null);
+        this.alto = imagen.getHeight(null);
+    }
     
+    @Override
+    public boolean recibirImpacto() {
+        // Pulga mutante se convierte en normal con un impacto
+        return false; // Indica que la pulga no debe eliminarse sino transformarse
+    }
 }
+
