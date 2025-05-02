@@ -3,15 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pulgas.armas;
+import java.awt.Image;
+import java.util.Collections;
+import java.util.List;
+import pulgas.models.GestorPuntaje;
+import pulgas.models.Pulga;
+import pulgas.models.PulgaMutante;
+import pulgas.models.PulgaNormal;
 
 /**
  *
  * @author juans
  *
- *
- * Implementación del misil Pulgoson
  */
-class MisilPulgoson implements Arma {
+public class MisilPulgoson implements Arma {
     @Override
     public int atacar(List<Pulga> pulgas, int x, int y, GestorPuntaje gestorPuntaje, Image imgPulgaNormal) {
         if (pulgas.isEmpty()) {
@@ -31,7 +36,7 @@ class MisilPulgoson implements Arma {
                 pulgasEliminadas++;
             } else if (pulga instanceof PulgaMutante) {
                 // Convertir pulga mutante en normal
-                PulgaNormal pulgaNormal = new PulgaNormal(pulga.x, pulga.y, imgPulgaNormal);
+                PulgaNormal pulgaNormal = new PulgaNormal(pulga.getX(), pulga.getY(), imgPulgaNormal);
                 pulgas.set(0, pulgaNormal);
             }
         }
@@ -40,5 +45,6 @@ class MisilPulgoson implements Arma {
         return pulgasEliminadas;
     }
 }
+
 
 

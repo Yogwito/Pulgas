@@ -3,13 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pulgas.models;
-
+import java.awt.Image;
 /**
  *
  * @author juans
  */
 
-class PulgaMutante extends Pulga {
+public class PulgaMutante extends Pulga {
     public PulgaMutante(int x, int y, Image imagen) {
         this.x = x;
         this.y = y;

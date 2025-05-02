@@ -11,7 +11,6 @@ import java.awt.Rectangle;
  *
  * @author juans
  *
- * Clase abstracta que define el comportamiento base de las pulgas
  */
 
 public abstract class Pulga {

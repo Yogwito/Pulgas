@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pulgas.models;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -11,7 +16,7 @@ package pulgas.models;
 /**
  * Gestor de puntaje del juego
  */
-class GestorPuntaje {
+public class GestorPuntaje {
     private int puntajeActual;
     private int puntajeMaximo;
     private final String ARCHIVO_PUNTAJE = "puntaje_maximo.txt";

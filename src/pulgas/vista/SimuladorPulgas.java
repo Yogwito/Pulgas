@@ -3,18 +3,120 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package pulgas.vista;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.*;
+import java.io.*;
+import java.net.URL;
+import java.util.*;
+import pulgas.armas.*;
+import pulgas.models.*;
+import pulgas.control.*;
 
 /**
  *
  * @author juans
  */
 public class SimuladorPulgas extends javax.swing.JFrame {
-
-    /**
-     * Creates new form SimuladorPulgas
-     */
+    
+    private CampoBatalla campoBatalla;
+    private GestorPuntaje gestorPuntaje;
+    private JLabel lblPuntaje;
+    private JLabel lblPuntajeMaximo;
     public SimuladorPulgas() {
         initComponents();
+        setTitle("Simulador de Combate Antipulgas");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setResizable(false);
+        
+        gestorPuntaje = new GestorPuntaje();
+        gestorPuntaje.cargarPuntajeMaximo();
+        
+        // Panel para mostrar puntajes
+        JPanel panelPuntaje = new JPanel();
+        lblPuntaje = new JLabel("Puntaje: 0");
+        lblPuntajeMaximo = new JLabel("Máximo: " + gestorPuntaje.getPuntajeMaximo());
+        panelPuntaje.add(lblPuntaje);
+        panelPuntaje.add(lblPuntajeMaximo);
+        
+        // Campo de batalla (panel principal del juego)
+        campoBatalla = new CampoBatalla(gestorPuntaje);
+        
+        // Configurar layout
+        setLayout(new BorderLayout());
+        add(panelPuntaje, BorderLayout.NORTH);
+        add(campoBatalla, BorderLayout.CENTER);
+        
+        // Configurar manejadores de eventos
+        configurarEventos();
+        
+        setVisible(true);
+        
+        // Iniciar generador automático de pulgas
+        GeneradorPulgas generador = new GeneradorPulgas(campoBatalla);
+        generador.start();
+    }
+    
+    private void configurarEventos() {
+        // Asegurar que el panel de juego reciba el foco
+        campoBatalla.setFocusable(true);
+        campoBatalla.requestFocusInWindow();
+
+        campoBatalla.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyChar()) {
+                    case 'p':
+                        campoBatalla.agregarPulgaNormal();
+                        break;
+                    case 'm':
+                        campoBatalla.agregarPulgaMutante();
+                        break;
+                    case 's':
+                        campoBatalla.saltarPulgas();
+                        break;
+                    case ' ':
+                        campoBatalla.dispararMisil();
+                        break;
+                    case 'q':
+                        finalizarJuego();
+                        break;
+                }
+            }
+        });
+
+        // Timer que actualiza los puntajes en pantalla
+        Timer timer = new Timer(100, e -> {
+            lblPuntaje.setText("Puntaje: " + gestorPuntaje.getPuntajeActual());
+            lblPuntajeMaximo.setText("Máximo: " + gestorPuntaje.getPuntajeMaximo());
+
+            if (campoBatalla.juegoTerminado()) {
+                mostrarDialogoReinicio();
+            }
+        });
+        timer.start();
+    }
+
+    private void finalizarJuego() {
+        gestorPuntaje.guardarPuntajeMaximo();
+        System.exit(0);
+    }
+    
+    private void mostrarDialogoReinicio() {
+        int opcion = JOptionPane.showConfirmDialog(this, 
+                "¡Has eliminado todas las pulgas!\nPuntaje final: " + gestorPuntaje.getPuntajeActual() +
+                "\n¿Deseas jugar otra partida?", 
+                "Juego terminado", JOptionPane.YES_NO_OPTION);
+        
+        if (opcion == JOptionPane.YES_OPTION) {
+            gestorPuntaje.reiniciarPuntaje();
+            campoBatalla.reiniciarJuego();
+        } else {
+            finalizarJuego();
+        }
     }
 
     /**
@@ -51,6 +153,7 @@ public class SimuladorPulgas extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        /* Set the Nimbus look and feel */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -58,25 +161,16 @@ public class SimuladorPulgas extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SimuladorPulgas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SimuladorPulgas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SimuladorPulgas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SimuladorPulgas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SimuladorPulgas().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new SimuladorPulgas().setVisible(true);
         });
     }
+}        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-}

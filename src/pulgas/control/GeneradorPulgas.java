@@ -8,11 +8,9 @@ package pulgas.control;
  *
  * @author juans
  *
- *
- * Hilo para generación automática de pulgas
  */
 
-class GeneradorPulgas extends Thread {
+public class GeneradorPulgas extends Thread {
     private CampoBatalla campoBatalla;
     private boolean ejecutando;
     

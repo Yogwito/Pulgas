@@ -9,7 +9,7 @@ import java.awt.Image;
  * @author juans
  *
  */
-class PulgaNormal extends Pulga {
+public class PulgaNormal extends Pulga {
     public PulgaNormal(int x, int y, Image imagen) {
         this.x = x;
         this.y = y;

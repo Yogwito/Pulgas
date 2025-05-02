@@ -2,16 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package pulgas.control;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.SwingUtilities;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import pulgas.armas.*;
+import pulgas.models.*;
 
 /**
- *
+ * 
  * @author juans
  */
-/**
- * Campo de batalla donde se desarrolla el juego
- */
-class CampoBatalla extends JPanel {
+public class CampoBatalla extends JPanel {
     private List<Pulga> pulgas;
     private PistolaPulguipium pistola;
     private MisilPulgoson misil;
@@ -19,6 +31,7 @@ class CampoBatalla extends JPanel {
     private Image imgPulgaNormal;
     private Image imgPulgaMutante;
     private boolean juegoEnCurso;
+    private boolean juegoIniciado;
     
     public CampoBatalla(GestorPuntaje gestorPuntaje) {
         this.gestorPuntaje = gestorPuntaje;
@@ -26,6 +39,7 @@ class CampoBatalla extends JPanel {
         pistola = new PistolaPulguipium();
         misil = new MisilPulgoson();
         juegoEnCurso = true;
+        juegoIniciado = false;
         
         // Cargar imágenes
         cargarImagenes();
@@ -180,8 +194,6 @@ class CampoBatalla extends JPanel {
         repaint();
     }
     
-    private boolean juegoIniciado = false;
-    
     public boolean juegoTerminado() {
         if (juegoEnCurso && juegoIniciado && pulgas.isEmpty()) {
             return true; // El juego está en curso, se inició (hubo pulgas) y ahora están todas eliminadas
@@ -192,10 +204,7 @@ class CampoBatalla extends JPanel {
     public void reiniciarJuego() {
         pulgas.clear();
         juegoEnCurso = true;
+        juegoIniciado = false;
         repaint();
     }
 }
-
-
-
-
