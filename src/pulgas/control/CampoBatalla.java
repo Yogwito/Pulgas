@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -64,10 +65,11 @@ public class CampoBatalla extends JPanel {
     }
     
     private void cargarImagenes() {
+
         try {
             // Intentar cargar imágenes desde recursos
-            URL urlNormal = getClass().getResource("/recursos/pulga_normal.png");
-            URL urlMutante = getClass().getResource("/recursos/pulga_mutante.png");
+            URL urlNormal = getClass().getResource("/pulgas/recursos/pulga_normal.png");
+            URL urlMutante = getClass().getResource("/pulgas/recursos/pulga_mutante.png");
             
             if (urlNormal != null && urlMutante != null) {
                 imgPulgaNormal = new ImageIcon(urlNormal).getImage();
@@ -76,6 +78,9 @@ public class CampoBatalla extends JPanel {
                 // Usar imágenes generadas si no se encuentran los recursos
                 imgPulgaNormal = crearImagenGenerica(20, 20, Color.RED);
                 imgPulgaMutante = crearImagenGenerica(25, 25, Color.GREEN);
+                System.out.println("URL normal: " + urlNormal);
+                System.out.println("URL mutante: " + urlMutante);
+
             }
         } catch (Exception e) {
             System.err.println("Error al cargar imágenes: " + e.getMessage());
