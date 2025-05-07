@@ -5,12 +5,10 @@
 package pulgas.armas;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import pulgas.models.GestorPuntaje;
-import pulgas.models.Pulga;
-import pulgas.models.PulgaMutante;
-import pulgas.models.PulgaNormal;
+import pulgas.models.*;
 /**
  *
  * @author juans & Trujirend & JJDaza
@@ -30,32 +28,30 @@ public class MisilPulgoson implements Arma {
      */
     @Override
     public int atacar(List<Pulga> pulgas, int x, int y, GestorPuntaje gestorPuntaje, Image imgPulgaNormal) {
-        if (pulgas.isEmpty()) {
-            return 0;
-        }
-        
-        // Calcular cuántas pulgas eliminar (50%)
-        int cantidadEliminar = Math.max(1, pulgas.size() / 2);
-        Collections.shuffle(pulgas); // Aleatorizar para no eliminar siempre las mismas
-        
-        int pulgasEliminadas = 0;
-        
-        for (int i = 0; i < cantidadEliminar && !pulgas.isEmpty(); i++) {
-            Pulga pulga = pulgas.get(0);
-            if (pulga.recibirImpacto()) {
-                pulgas.remove(0);
-                pulgasEliminadas++;
-            } else if (pulga instanceof PulgaMutante) {
-                // Convertir pulga mutante en normal
-                PulgaNormal pulgaNormal = new PulgaNormal(pulga.getX(), pulga.getY(), imgPulgaNormal);
-                pulgas.set(0, pulgaNormal);
+        if (pulgas.isEmpty()) return 0;
+        List<Pulga> copia = new ArrayList<>(pulgas);
+        Collections.shuffle(copia);
+        int cantidadEliminar = Math.max(1, copia.size() / 2);
+        int eliminadas = 0;
+
+        for (int i = 0; i < cantidadEliminar && i < copia.size(); i++) {
+            Pulga p = copia.get(i);
+            if (!pulgas.contains(p)) continue;
+            if (p.recibirImpacto()) {
+                pulgas.remove(p);
+                eliminadas++;
+            } else if (p instanceof PulgaMutante) {
+                int idx = pulgas.indexOf(p);
+                if (idx >= 0) {
+                    PulgaNormal nueva = new PulgaNormal(p.getX(), p.getY(), imgPulgaNormal);
+                    pulgas.set(idx, nueva);
+                }
             }
         }
-        
-        gestorPuntaje.aumentarPuntaje(pulgasEliminadas);
-        return pulgasEliminadas;
+
+        gestorPuntaje.aumentarPuntaje(eliminadas);
+        return eliminadas;
     }
 }
-
 
 
