@@ -25,37 +25,6 @@ public class GeneradorPulgas extends Thread {
         this.campoBatalla = campoBatalla;
         this.ejecutando = true;
     }
-
-    /**
-     * Ejecuta el hilo que agrega pulgas normales cada 5 segundos y mutantes cada 10 segundos.
-     */
-    @Override
-    public void run() {
-        try {
-            int contadorNormal = 0;
-            int contadorMutante = 0;
-
-            while (ejecutando) {
-                Thread.sleep(1000); // Espera 1 segundo
-
-                contadorNormal++;
-                contadorMutante++;
-
-                if (contadorNormal >= 5) {
-                    campoBatalla.agregarPulgaNormal(); // Cada 5 segundos
-                    contadorNormal = 0;
-                }
-
-                if (contadorMutante >= 10) {
-                    campoBatalla.agregarPulgaMutante(); // Cada 10 segundos
-                    contadorMutante = 0;
-                }
-            }
-        } catch (InterruptedException e) {
-            ejecutando = false;
-        }
-    }
-
     /**
      * Detiene la ejecución del hilo de generación de pulgas.
      */

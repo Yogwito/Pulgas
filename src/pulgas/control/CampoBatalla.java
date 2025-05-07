@@ -1,6 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/* 
+ * Correcciones en CampoBatalla.java
  */
 
 package pulgas.control;
@@ -21,14 +20,11 @@ import pulgas.armas.*;
 import pulgas.models.*;
 
 /**
- *
- * @author juans & Trujirend & JJDaza
- *
- */
-/**
  * Clase que representa el campo de batalla donde interactúan las pulgas y las armas.
  * Gestiona el dibujo, las interacciones del jugador y la lógica de juego.
+ * Implementa la interfaz SpriteContainer para gestionar todos los sprites del juego.
  */
+
 public class CampoBatalla extends JPanel {
     private List<Pulga> pulgas;
     private PistolaPulguipium pistola;
@@ -38,6 +34,8 @@ public class CampoBatalla extends JPanel {
     private Image imgPulgaMutante;
     private boolean juegoEnCurso;
     private boolean juegoIniciado;
+    // Contenedor de sprites opcional para futura expansión
+    private SpriteContainer contenedorSprites;
 
     /**
      * Constructor que inicializa el campo de batalla y configura imágenes y eventos del ratón.
@@ -49,6 +47,7 @@ public class CampoBatalla extends JPanel {
         misil = new MisilPulgoson();
         juegoEnCurso = true;
         juegoIniciado = false;
+        contenedorSprites = new SpriteContainer();
 
         cargarImagenes(); // Cargar imágenes de las pulgas
 
@@ -74,27 +73,38 @@ public class CampoBatalla extends JPanel {
     /**
      * Carga las imágenes de las pulgas desde los recursos, o genera imágenes genéricas si no se encuentran.
      */
-    private void cargarImagenes() {
+    private Image fondo;
 
+    private void cargarImagenes() {
         try {
+            URL urlFondo = getClass().getResource("/recursos/fondo.png");
             URL urlNormal = getClass().getResource("/recursos/pulga_normal.png");
             URL urlMutante = getClass().getResource("/recursos/pulga_mutante.png");
 
-            // Intentar cargar imágenes desde recursos
-            if (urlNormal != null && urlMutante != null) {
-                imgPulgaNormal = new ImageIcon(urlNormal).getImage();
-                imgPulgaMutante = new ImageIcon(urlMutante).getImage();
-            } else {
-                imgPulgaNormal = crearImagenGenerica(20, 20, Color.RED);
-                imgPulgaMutante = crearImagenGenerica(25, 25, Color.GREEN);
-                System.out.println("URL normal: " + urlNormal);
-                System.out.println("URL mutante: " + urlMutante);
+            if (urlFondo != null) fondo = new ImageIcon(urlFondo).getImage();
+            if (urlNormal != null) imgPulgaNormal = new ImageIcon(urlNormal).getImage();
+            if (urlMutante != null) imgPulgaMutante = new ImageIcon(urlMutante).getImage();
 
-            }
+            if (fondo == null) fondo = crearImagenGenerica(getWidth(), getHeight(), Color.LIGHT_GRAY);
+            if (imgPulgaNormal == null) imgPulgaNormal = crearImagenGenerica(20, 20, Color.RED);
+            if (imgPulgaMutante == null) imgPulgaMutante = crearImagenGenerica(25, 25, Color.GREEN);
         } catch (Exception e) {
             System.err.println("Error al cargar imágenes: " + e.getMessage());
-            imgPulgaNormal = crearImagenGenerica(20, 20, Color.RED);
-            imgPulgaMutante = crearImagenGenerica(25, 25, Color.GREEN);
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (fondo != null) {
+            g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+        } else {
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+
+        for (Pulga pulga : pulgas) {
+            pulga.paint(g);
         }
     }
 
@@ -125,27 +135,13 @@ public class CampoBatalla extends JPanel {
     }
 
     /**
-     * Dibuja el campo de batalla y las pulgas en pantalla.
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        for (Pulga pulga : pulgas) {
-            pulga.dibujar(g);
-        }
-    }
-
-    /**
      * Agrega una nueva pulga normal al campo, evitando colisiones con otras.
      */
     public void agregarPulgaNormal() {
         if (!juegoEnCurso) return;
 
-        int x = (int) (Math.random() * (getWidth() - imgPulgaNormal.getWidth(null)));
-        int y = (int) (Math.random() * (getHeight() - imgPulgaNormal.getHeight(null)));
+        int x = (int) (Math.random() * (getWidth() - 20)); // Evitar usar getWidth(null) de la imagen
+        int y = (int) (Math.random() * (getHeight() - 20));
 
         PulgaNormal nuevaPulga = new PulgaNormal(x, y, imgPulgaNormal);
 
@@ -166,6 +162,8 @@ public class CampoBatalla extends JPanel {
 
         if (!colision) {
             pulgas.add(nuevaPulga);
+            // También podríamos añadirla al contenedor de sprites
+            // contenedorSprites.addSprite(nuevaPulga);
             juegoIniciado = true;
             repaint();
         }
@@ -177,8 +175,8 @@ public class CampoBatalla extends JPanel {
     public void agregarPulgaMutante() {
         if (!juegoEnCurso) return;
 
-        int x = (int) (Math.random() * (getWidth() - imgPulgaMutante.getWidth(null)));
-        int y = (int) (Math.random() * (getHeight() - imgPulgaMutante.getHeight(null)));
+        int x = (int) (Math.random() * (getWidth() - 25)); // Evitar usar getWidth(null) de la imagen
+        int y = (int) (Math.random() * (getHeight() - 25));
 
         PulgaMutante nuevaPulga = new PulgaMutante(x, y, imgPulgaMutante);
 
@@ -199,6 +197,8 @@ public class CampoBatalla extends JPanel {
 
         if (!colision) {
             pulgas.add(nuevaPulga);
+            // También podríamos añadirla al contenedor de sprites
+            // contenedorSprites.addSprite(nuevaPulga);
             juegoIniciado = true;
             repaint();
         }
@@ -241,8 +241,12 @@ public class CampoBatalla extends JPanel {
      */
     public void reiniciarJuego() {
         pulgas.clear();
+        // También limpiar el contenedor de sprites si se está usando
+        // contenedorSprites = new SpriteContainer();
         juegoEnCurso = true;
         juegoIniciado = false;
         repaint();
     }
 }
+
+
