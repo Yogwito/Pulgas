@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
-import pulgas.armas.*;
 import pulgas.models.*;
 import pulgas.control.*;
 
@@ -22,6 +21,7 @@ public class SimuladorPulgas extends javax.swing.JFrame {
     private GestorPuntaje gestorPuntaje;
     private JLabel lblPuntaje;
     private JLabel lblPuntajeMaximo;
+    
     public SimuladorPulgas() {
         initComponents();
         setTitle("Simulador de Combate Antipulgas");
@@ -104,7 +104,7 @@ public class SimuladorPulgas extends javax.swing.JFrame {
     
     private void mostrarDialogoReinicio() {
         int opcion = JOptionPane.showConfirmDialog(this, 
-                "¡Has eliminado todas las pulgas!\nPuntaje final: " + gestorPuntaje.getPuntajeActual() +
+                "¡USTED HA LIMPIADO LA CALVA DE PIOJOS!\nPuntaje final: " + gestorPuntaje.getPuntajeActual() +
                 "\n¿Deseas jugar otra partida?", 
                 "Juego terminado", JOptionPane.YES_NO_OPTION);
         

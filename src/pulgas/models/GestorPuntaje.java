@@ -19,7 +19,22 @@ import java.io.IOException;
 public class GestorPuntaje {
     private int puntajeActual;
     private int puntajeMaximo;
-    private final String ARCHIVO_PUNTAJE = "puntaje_maximo.txt";
+    private final String ARCHIVO_PUNTAJE = "C:/Users/juans/Desktop/puntaje_maximo.txt";
+    
+    public void guardarPuntajeMaximo() {
+    if (puntajeActual > puntajeMaximo) {
+        puntajeMaximo = puntajeActual;
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_PUNTAJE))) {
+            bw.write(String.valueOf(puntajeMaximo));
+            System.out.println("✅ Puntaje guardado en: " + ARCHIVO_PUNTAJE);
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar puntaje: " + e.getMessage());
+        }
+    } else {
+        System.out.println("ℹ️ No se guardó el puntaje (puntajeActual <= puntajeMaximo)");
+    }
+}
+
     
     public GestorPuntaje() {
         puntajeActual = 0;
@@ -37,7 +52,7 @@ public class GestorPuntaje {
             puntajeMaximo = 0;
         }
     }
-    
+    /*
     public void guardarPuntajeMaximo() {
         if (puntajeActual > puntajeMaximo) {
             puntajeMaximo = puntajeActual;
@@ -48,7 +63,7 @@ public class GestorPuntaje {
             }
         }
     }
-    
+    */
     public void aumentarPuntaje(int puntos) {
         puntajeActual += puntos;
         if (puntajeActual > puntajeMaximo) {
